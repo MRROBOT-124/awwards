@@ -1,3 +1,4 @@
+import Header from '@/components/header';
 import React from 'react'
 
 interface PageProps {
@@ -5,7 +6,7 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({}) => {
-    return (<main></main>);
+    return (<Header></Header>);
 }
 
 
