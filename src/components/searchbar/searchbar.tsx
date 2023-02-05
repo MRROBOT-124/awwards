@@ -2,19 +2,20 @@
 
 import { featuredList, featuredTags, slider } from '@/temp/data';
 import React, { useState } from 'react'
-import FeaturedList from './featuredList';
-import FeaturedSlider from './featuredSlider';
-
+import FeaturedList from '../featuredList/featuredList';
+import FeaturedSlider from '../featuredList/featuredSlider';
+import './searchbar.scss'
 
 interface SearchbarProps {
+    backgroundColor: string
 }
 
-const Searchbar: React.FC<SearchbarProps> = ({}) => {
+const Searchbar: React.FC<SearchbarProps> = ({ backgroundColor }) => {
     const [toggle, setToggle] = useState(false);
     const [dropdown, setDropdownToggle] = useState(false);
     
         return (
-            <form className={`search flex items-center flex-1 pl-5 z-20 relative ${toggle ? 'dark': ''}`} >
+            <form className={`search flex items-center flex-1 pl-5 z-20 relative ${toggle ? 'dark': ''}`} style={{backgroundColor: `${backgroundColor}`}} >
                 {/* ICON */}
                 <svg className="ico-svg" viewBox="0 0 20 20" width="20">
                     <path d="M20,8c0-4.4-3.6-8-8-8C7.6,0,4,3.6,4,8c0,1.9,0.6,3.6,1.7,4.9L0,18.6L1.4,20l7.1-7.1l-0.2-0.2 C6.9,11.6,6,9.9,6,8c0-3.3,2.7-6,6-6c3.3,0,6,2.7,6,6c0,3.3-2.7,6-6,6c-0.7,0-1.3-0.1-1.9-0.3L10,13.7l-1.5,1.5l0.4,0.2 c1,0.4,2.1,0.7,3.2,0.7C16.4,16,20,12.4,20,8z"></path>
