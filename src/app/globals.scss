@@ -19,8 +19,9 @@
 
 :root {
     --grey: #a7a7a7;
-    --bg-color: #F4E8D0;
-    --ch-bg: #F4E8D0;
+    --grey-primary: #7a7a7a;
+    --bg-color: #DCCEC2;
+    --ch-bg: #DCCEC2;
     --ch-dark: #323232;
     --primary: #222222;
     --primary-light: #383838;
@@ -57,9 +58,11 @@ body {
 
 .search {
     position: relative;
+    z-index: 10;
     filter: brightness(90%);
     border-radius: 10px;
     background-color: var(--ch-bg);
+    transition: all .3s ease;
 
     .ico-svg {
         fill: var(--grey);
@@ -68,6 +71,8 @@ body {
     &.dark {
         background-color: var(--ch-dark);
         color: white;
+        filter: brightness(90%);
+
 
         .dropdown {
             &__arrow {
@@ -136,6 +141,80 @@ body {
                 }
             }
             
+        }
+    }
+
+    &__suggestions {
+        position: absolute;
+        width: 100%;
+        height: max-content;
+        padding-bottom: 50px;
+        z-index: 5;
+        top: 0px;
+        left: 0px;
+        background-color: var(--primary);
+        border-radius: 10px;
+
+        .featured {
+            font-size: 10.6px;
+            font-weight: 300;
+            font-family: 'apercu-light';
+            color: var(--grey-primary);
+
+            &__list {
+                p {
+                    color: white;
+                }
+                img {
+                    border-radius: 10px;
+                }
+            }
+
+            &__tags {
+                padding: 3px 12px;
+                background-color: transparent;
+                border: 1px solid white;
+                border-radius: 16px;
+                color: white;
+                transition: all .3s ease;
+
+                &:hover {
+                    background-color: white;
+                    color: var(--grey-primary);
+                }
+
+                &:not(:last-child) {
+                    margin-right: 12px;
+                }
+            }
+
+            &__slider {
+                width: 350px;
+                min-width: 350px;
+                transition: all .3s ease;
+
+                &:not(:last-child) {
+                    margin-right: 12px;
+                }
+                p {
+                    color: white;
+                }
+            }
+
+            &__navigation {
+
+                a, a:link, a:visited {
+                    transform: all .3s ease;
+                    &:hover {
+                        svg {
+                            fill: var(--grey-primary);
+                        }
+                    }
+                }
+                svg {
+                    fill: white;
+                }
+            }
         }
     }
 

@@ -1,4 +1,5 @@
 import Header from '@/components/header';
+import Wrapper from '@/components/wrapper';
 import React from 'react'
 
 interface PageProps {
@@ -6,7 +7,14 @@ interface PageProps {
 }
 
 const Page: React.FC<PageProps> = ({}) => {
-    return (<Header></Header>);
+    return (
+        <>
+            <Header></Header>
+            <Wrapper>
+                
+            </Wrapper>
+        </>
+    );
 }
 
 
