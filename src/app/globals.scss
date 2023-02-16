@@ -34,6 +34,13 @@ body {
     background-color: var(--bg-color);
 }
 
+
+header {
+    position: fixed;
+    top: 0px;
+    z-index: 12;
+    background-color: white;
+}
 /*========================== BUTTON ============================*/
 
 .btn {
@@ -53,4 +60,10 @@ body {
         background-color: var(--primary);
         color: white;
     }
+}
+
+/*========================== SPACINGS =======================*/
+
+.mt-100 {
+    margin-top: 100px;
 }
