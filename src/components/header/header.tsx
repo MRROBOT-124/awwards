@@ -1,14 +1,16 @@
 import React from 'react'
 import Searchbar from '../searchbar/searchbar';
 import Wrapper from '../wrapper';
+import './header.scss';
 
 interface HeaderProps {
-    backgroundColor: string
+    backgroundColor: string,
+    searchBgColor: string
 }
 
-const Header: React.FC<HeaderProps> = ({ backgroundColor }) => {
+const Header: React.FC<HeaderProps> = ({ backgroundColor, searchBgColor}) => {
         return (
-                <header className='w-full'>
+                <header className='w-full' style={{backgroundColor: backgroundColor}}>
                     <Wrapper>
                         <div className='flex items-center justify-between py-2.5 whitespace-nowrap'>
                             {/* LOGO */}
@@ -17,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor }) => {
                                 </path>
                             </svg>
                             {/* SEARCH BAR */}
-                            <Searchbar  backgroundColor={backgroundColor}/>
+                            <Searchbar  backgroundColor={searchBgColor}/>
                             {/* BUTTONS */}
                             <a href="" className='text-sm font-normal ml-5 hidden sm:block'>Log in</a>
                             <a href="" className='text-sm font-normal ml-5 hidden sm:block'>Sign up</a>

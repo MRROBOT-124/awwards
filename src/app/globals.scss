@@ -21,8 +21,8 @@
     --grey: #a7a7a7;
     --grey-primary: #7a7a7a;
     --grey-secondary: #E9E9E9;
-    --bg-color: #DCCEC2;
-    --ch-bg: #DCCEC2;
+    --bg-color: #E5E5E5;
+    --ch-bg: #CECECE;
     --ch-dark: #323232;
     --primary: #222222;
     --primary-light: #383838;
@@ -35,12 +35,11 @@ body {
 }
 
 
-header {
-    position: fixed;
-    top: 0px;
-    z-index: 12;
-    background-color: white;
+.circle-avatar {
+    width: 28px;
+    border-radius: 50%;
 }
+
 /*========================== BUTTON ============================*/
 
 .btn {
@@ -64,6 +63,23 @@ header {
 
 /*========================== SPACINGS =======================*/
 
-.mt-100 {
-    margin-top: 100px;
+.mt {
+    &-55 {
+        margin-top: 55px;
+    }
+
+    &-100 {
+        margin-top: 100px;
+    }
+
+    &-130 {
+        margin-top: 130px;
+    }
+}
+
+
+.pl {
+    &--50 {
+        padding-left: 50px;
+    }
 }

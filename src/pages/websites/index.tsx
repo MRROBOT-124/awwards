@@ -12,7 +12,7 @@ interface indexProps {
 const index: React.FC<indexProps> = ({}) => {
         return (
                 <>
-                        <Header backgroundColor='#E9E9E9'></Header>
+                        <Header searchBgColor='#E9E9E9' backgroundColor='white'></Header>
                         <div className="mt-100"></div>
                         <Wrapper>
                                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 auto-rows-auto gap-5 gap-y-10">
