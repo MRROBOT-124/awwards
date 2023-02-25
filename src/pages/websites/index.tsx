@@ -5,11 +5,17 @@ import './websites.scss';
 import Website from '@/components/website/website';
 import Wrapper from '@/components/wrapper';
 import { websites } from '@/temp/data';
+import { createClient, Provider, useMutation, useQuery } from 'urql';
+import { useGetAllUsersQuery } from '@/generated/graphql';
 
 interface indexProps {
 }
 
+
 const index: React.FC<indexProps> = ({}) => {
+        const [result, reexecuteQuery] = useGetAllUsersQuery();
+        const {data, fetching, error} = result;
+        console.log(data);
         return (
                 <>
                         <Header searchBgColor='#E9E9E9' backgroundColor='white'></Header>

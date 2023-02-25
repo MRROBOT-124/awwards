@@ -1,0 +1,10 @@
+query GetAllUsers {
+  getAllUsers {
+    email
+    password
+    username
+    _id
+    createdAt
+    updatedAt
+  }
+}

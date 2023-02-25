@@ -1,0 +1,16 @@
+mutation RegisterUser($websiteInput: UserDetails!) {
+  registerUser(websiteInput: $websiteInput) {
+    user {
+      _id
+      createdAt
+      email
+      password
+      updatedAt
+      username
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
