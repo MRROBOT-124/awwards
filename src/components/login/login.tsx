@@ -1,4 +1,5 @@
 import { __CHECKBOX, __EMAIL, __PASSWORD } from '@/constants';
+import { useLoginUserMutation, UserDetails } from '@/generated/graphql';
 import React from 'react'
 import Checkbox from '../checkbox/checkbox';
 import Input from '../input/input';
@@ -10,6 +11,24 @@ interface loginProps {
 }
 
 const login: React.FC<loginProps> = ({display}) => {
+
+    const [, login] = useLoginUserMutation();
+        
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const data : UserDetails = {
+            username: event.target.username.value,
+            email: event.target.email.value,
+            password: event.target.password.value,
+        }
+
+        const loginUser = await login({websiteInput: data});
+
+        console.log(loginUser.data);
+
+        
+    }
         
         return (
             <div className={`login items-center justify-center ${display? 'show' : ''}`} >
@@ -29,7 +48,7 @@ const login: React.FC<loginProps> = ({display}) => {
                         <p className='self-start text-base font-light'>Not a member yet? <a href="#" className='mt-5 link text-base font-normal'>Register now</a></p>
                     </div>
                     <div className="login__right">
-                        <form action="" className='flex flex-col'>
+                        <form onSubmit={handleSubmit} className='flex flex-col'>
                             <h1 className='text-2xl font-bold'>Log in</h1>
                             {
                                 data.map(({...props}, index) => {
