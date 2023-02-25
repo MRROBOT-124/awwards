@@ -1,4 +1,8 @@
+import { __CHECKBOX, __EMAIL, __PASSWORD } from '@/constants';
 import React from 'react'
+import Checkbox from '../checkbox/checkbox';
+import Input from '../input/input';
+import { data } from './data';
 import './login.scss'
 
 interface loginProps {
@@ -27,14 +31,13 @@ const login: React.FC<loginProps> = ({display}) => {
                     <div className="login__right">
                         <form action="" className='flex flex-col'>
                             <h1 className='text-2xl font-bold'>Log in</h1>
-                            <label htmlFor="email" className="uppercase mt-10 text-xs">Email or username</label>
-                            <input type="text" name="email" id="email" placeholder='Email or username' className='text-base'/>
-                            <label htmlFor="password" className="uppercase  mt-10 text-xs ">password</label>
-                            <input type="password" name="password" id="password" placeholder='passsword' className='text-base' />
-                            <div className="flex items-center mt-5">
-                                <input type="checkbox" id="session" name="session" value="session" />
-                                <label htmlFor="session" className='checkbox text-base font-light'>Keep me logged in</label>
-                            </div>
+                            {
+                                data.map(({...props}, index) => {
+                                    return props.type === __CHECKBOX ?
+                                        <Checkbox {...props} key={index} /> :
+                                        <Input {...props} key={index} /> 
+                                })
+                            }
                             <button type="submit" className='text-xl font-normal mt-10'>Log in now</button>
                             <div className="flex items-center justify-end">
                                 <a href="" className='mt-5 link text-xs font-light'>Forgot your password?</a>

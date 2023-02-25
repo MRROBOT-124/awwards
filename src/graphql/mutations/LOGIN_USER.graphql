@@ -1,0 +1,12 @@
+mutation LoginUser($websiteInput: UserDetails!) {
+  loginUser(websiteInput: $websiteInput) {
+    errors {
+      field
+      message
+    }
+    user {
+      email
+      password
+    }
+  }
+}

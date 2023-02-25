@@ -75,29 +75,6 @@
 
         }
 
-        input {
-            background-color: white;
-            padding: 16px;
-            border-bottom: 1px solid var(--grey-secondary);
-            transition: all .3s ease;
-
-            &:focus, &:visited {
-                outline: none;
-                box-shadow: none;
-                border-color: var(--grey) !important;
-            }
-
-            &::placeholder {
-                color: #d3d3d3;
-            }
-        }
-
-        .checkbox {
-            margin-left: 5px;
-            margin-top: 7px;
-            color: #222;
-        }
-
         button {
             background-color: var(--primary);
             padding: 16px;

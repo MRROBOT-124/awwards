@@ -5,6 +5,7 @@ import Searchbar from '../searchbar/searchbar';
 import Wrapper from '../wrapper';
 import './header.scss';
 import Login from '../login/login'
+import Register from '../register/register';
 
 
 interface HeaderProps {
@@ -42,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor, searchBgColor}) => {
                             
                         </Wrapper>
                     </header>
-                    <Login display={login} />
+                    <Register display={login} />
                 </>
         );
 }

@@ -5,7 +5,6 @@ import './websites.scss';
 import Website from '@/components/website/website';
 import Wrapper from '@/components/wrapper';
 import { websites } from '@/temp/data';
-import { createClient, Provider, useMutation, useQuery } from 'urql';
 import { useGetAllUsersQuery } from '@/generated/graphql';
 
 interface indexProps {

@@ -1,13 +1,36 @@
 import React from 'react'
+import './register.scss'
+import Input from '../input/input';
+import Checkbox from '../checkbox/checkbox';
+import { UserDetails, useRegisterUserMutation } from '@/generated/graphql';
+import { withUrqlClient } from 'next-urql';
+import { urlConfig } from '@/pages/_app';
 
-interface registerProps {
-
+interface RegisterProps {
+    display: boolean
 
 }
 
-const register: React.FC<registerProps> = ({}) => {
+const Register: React.FC<RegisterProps> = ({display}) => {
+    const [, register] = useRegisterUserMutation();
+    let error;
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+
+        const data : UserDetails = {
+            username: event.target.username.value,
+            email: event.target.email.value,
+            password: event.target.password.value,
+        }
+
+        const registerUser = await register({websiteInput: data});
+        console.log(registerUser.data?.registerUser.errors);
+
+        error = registerUser.data?.registerUser.errors;
+        
+    }
         return (
-            <div className='register flex items-center justify-center'>
+            <div className={`register items-center justify-center ${display? 'show' : ''}`} >
                 <div className="register__container grid grid-cols-2">
                     <div className="register__left flex items-center justify-between flex-col">
                         <h1 className='self-start'>Welcome!</h1>
@@ -15,32 +38,69 @@ const register: React.FC<registerProps> = ({}) => {
                             <svg width="30" height="16" viewBox="0 0 30 16" className='logo'><path d="m18.4 0-2.803 10.855L12.951 0H9.34L6.693 10.855 3.892 0H0l5.012 15.812h3.425l2.708-10.228 2.709 10.228h3.425L22.29 0h-3.892ZM24.77 13.365c0 1.506 1.12 2.635 2.615 2.635C28.879 16 30 14.87 30 13.365c0-1.506-1.12-2.636-2.615-2.636s-2.615 1.13-2.615 2.636Z"></path></svg>
                             <svg width="163" height="163" viewBox="0 0 163 163" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M81.09 162.18C125.875 162.18 162.18 125.875 162.18 81.09C162.18 36.3052 125.875 0 81.09 0C36.3053 0 0 36.3052 0 81.09C0 125.875 36.3053 162.18 81.09 162.18Z" fill="#AAEEC4"></path>
-                                <path d="M81.0906 147.041C117.514 147.041 147.041 117.514 147.041 81.0906C147.041 44.6674 117.514 15.1406 81.0906 15.1406C44.6675 15.1406 15.1406 44.6674 15.1406 81.0906C15.1406 117.514 44.6675 147.041 81.0906 147.041Z" stroke="#502BD8" stroke-width="8" stroke-miterlimit="1.2"></path>
+                                <path d="M81.0906 147.041C117.514 147.041 147.041 117.514 147.041 81.0906C147.041 44.6674 117.514 15.1406 81.0906 15.1406C44.6675 15.1406 15.1406 44.6674 15.1406 81.0906C15.1406 117.514 44.6675 147.041 81.0906 147.041Z" stroke="#502BD8" strokeWidth="8" strokeMiterlimit="1.2"></path>
                                 <path d="M103.819 78.3292C108.906 78.3292 113.029 74.1028 113.029 68.8892C113.029 63.6757 108.906 59.4492 103.819 59.4492C98.7329 59.4492 94.6094 63.6757 94.6094 68.8892C94.6094 74.1028 98.7329 78.3292 103.819 78.3292Z" fill="#502BD8"></path>
                                 <path d="M58.3662 78.3292C63.4528 78.3292 67.5762 74.1028 67.5762 68.8892C67.5762 63.6757 63.4528 59.4492 58.3662 59.4492C53.2797 59.4492 49.1562 63.6757 49.1562 68.8892C49.1562 74.1028 53.2797 78.3292 58.3662 78.3292Z" fill="#502BD8"></path>
-                                <path d="M48.8438 94.8906C52.3937 109.411 65.4838 120.181 81.0938 120.181C96.7037 120.181 109.794 109.411 113.344 94.8906" stroke="#502BD8" stroke-width="8" stroke-miterlimit="1.2"></path>
+                                <path d="M48.8438 94.8906C52.3937 109.411 65.4838 120.181 81.0938 120.181C96.7037 120.181 109.794 109.411 113.344 94.8906" stroke="#502BD8" strokeWidth="8" strokeMiterlimit="1.2"></path>
                             </svg>
                         </div>
-                        <p className='self-start text-base font-light'>Not a member yet? <a href="#" className='mt-5 link text-base font-normal'>Register now</a></p>
+                        <p className='self-start text-base font-light'>Are you a member?  <a href="#" className='mt-5 link text-base font-normal'>Log in now</a></p>
                     </div>
                     <div className="register__right">
-                        <form action="" className='flex flex-col'>
-                            <h1 className='text-2xl font-bold'>Log in</h1>
-                            <label htmlFor="email" className="uppercase mt-10 text-xs">Email or username</label>
-                            <input type="text" name="email" id="email" placeholder='Email or username' className='text-base'/>
-                            <label htmlFor="password" className="uppercase  mt-10 text-xs ">password</label>
-                            <input type="password" name="password" id="password" placeholder='passsword' className='text-base' />
-                            <div className="flex items-center mt-5">
-                                <input type="checkbox" id="session" name="session" value="session" />
-                                <label htmlFor="session" className='checkbox text-base font-light'>Keep me logged in</label>
+                        <form onSubmit={handleSubmit} className='flex flex-col'>
+                            <h1 className='text-2xl font-bold'>Register with your e-mail</h1>
+                            <Input 
+                                text= "Username (*)"
+                                type= "text"
+                                labelClass= "uppercase mt-10 text-xs"
+                                name= 'username'
+                                inputClass= "text-base"
+                            />
+                            <Input 
+                                text= "Email (*)"
+                                type= "email"
+                                labelClass= "uppercase mt-8 text-xs"
+                                name= 'email'
+                                inputClass= "text-base"
+                            />
+                            <div className="grid grid-cols-2 gap-x-3">    
+                                <Input 
+                                    text= "Password (*)"
+                                    type= "password"
+                                    labelClass= "uppercase mt-8 text-xs"
+                                    name= 'password'
+                                    inputClass= "text-base"
+                                />
+                                <Input 
+                                    text= "Repeat Password (*)"
+                                    type= "password"
+                                    labelClass= "uppercase mt-8 text-xs"
+                                    name= 'repeatPassword'
+                                    inputClass= "text-base"
+                                />
                             </div>
-                            <button type="submit" className='text-xl font-normal mt-10'>Log in now</button>
+                            <p className='text-base font-light mt-7'>Awwwards may keep me informed with personalized emails about products and services. See our Privacy Policy for more details.</p>
+                            <Checkbox 
+                                text= "Please contact me via e-mail"
+                                type= "checkbox"
+                                labelClass= "checkbox text-base font-ligh"
+                                name= 'email_subscription'
+                                inputClass= "text-base"
+                            />
+                            <Checkbox 
+                                text= "I have read and accept the Terms and Conditions"
+                                type= "checkbox"
+                                labelClass= "checkbox text-base font-ligh"
+                                name= 'email_subscription'
+                                inputClass= "text-base"
+                            />
+                            <button type="submit" className='text-xl font-normal mt-10'>Create Account</button>
                             <div className="flex items-center justify-end">
                                 <a href="" className='mt-5 link text-xs font-light'>Forgot your password?</a>
                             </div>
                         </form>
 
-                        <p className='mt-10 font-light text-base'>Or sign in with</p>
+                        <p className='mt-10 font-light text-base'>Or register with</p>
                         <div className="flex items-center justify-between mt-5">
                             <a className="flex items-center justify-center socials">
                                 <svg className='mr-2' viewBox="0 0 20 20" width="15" xmlns="http://www.w3.org/2000/svg">
@@ -67,4 +127,4 @@ const register: React.FC<registerProps> = ({}) => {
         );
 }
 
-export default register;
+export default urlConfig(Register);
