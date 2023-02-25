@@ -3,7 +3,6 @@ import './register.scss'
 import Input from '../input/input';
 import Checkbox from '../checkbox/checkbox';
 import { UserDetails, useRegisterUserMutation } from '@/generated/graphql';
-import { withUrqlClient } from 'next-urql';
 import { urlConfig } from '@/pages/_app';
 
 interface RegisterProps {
