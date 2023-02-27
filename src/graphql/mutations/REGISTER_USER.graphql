@@ -1,10 +1,9 @@
-mutation RegisterUser($websiteInput: UserDetails!) {
-  registerUser(websiteInput: $websiteInput) {
+mutation RegisterUser($userDetails: UserDetails!) {
+  registerUser(userDetails: $userDetails) {
     user {
       _id
       createdAt
       email
-      password
       updatedAt
       username
     }

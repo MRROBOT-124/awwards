@@ -1,12 +1,15 @@
-mutation LoginUser($websiteInput: UserDetails!) {
-  loginUser(websiteInput: $websiteInput) {
+mutation LoginUser($userDetails: UserDetails!) {
+  loginUser(userDetails: $userDetails) {
+    user {
+      _id
+      createdAt
+      email
+      updatedAt
+      username
+    }
     errors {
       field
       message
-    }
-    user {
-      email
-      password
     }
   }
 }

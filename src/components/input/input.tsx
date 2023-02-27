@@ -6,14 +6,15 @@ interface InputProps {
     labelClass: string,
     name: string,
     type: string,
-    inputClass: string
+    inputClass: string,
+    error: boolean
 }
 
-const Input: React.FC<InputProps> = ({name, text, labelClass, type, inputClass}) => {
+const Input: React.FC<InputProps> = ({name, text, labelClass, type, inputClass, error}) => {
         return (
             <div className='flex flex-col'>
                 <label htmlFor={name} className={labelClass}>{text}</label>
-                <input type={type} name={name} id={name} placeholder={text} className={inputClass} required/>
+                <input type={type} name={name} id={name} placeholder={text} className={inputClass} style={{borderColor: `${error ? 'rgb(250, 93, 41)' : '#a7a7a7'}`}} required/>
             </div>
         );
 }

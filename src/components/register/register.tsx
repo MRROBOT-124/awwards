@@ -1,4 +1,5 @@
-import React from 'react'
+"use client";
+import React, { ReactNode, useState } from 'react'
 import './register.scss'
 import Input from '../input/input';
 import Checkbox from '../checkbox/checkbox';
@@ -6,15 +7,38 @@ import { UserDetails, useRegisterUserMutation } from '@/generated/graphql';
 import { urlConfig } from '@/pages/_app';
 
 interface RegisterProps {
-    display: boolean
-
+    display?: boolean
 }
 
 const Register: React.FC<RegisterProps> = ({display}) => {
     const [, register] = useRegisterUserMutation();
-    let error;
+    const [error, setError] = useState<any>({});
+
+
+    const convetToMap = (error) => {
+        const errorMap:Record<string,string> = {} 
+         error.forEach(({field, message}) => {
+            errorMap[field] = message;
+         });
+         return errorMap;
+    }
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const usernameRegex = new RegExp('^(?=[a-zA-Z0-9._]{8,20}$)(?!.*[_.]{2})[^_.].*[^_.]$');
+        if(!usernameRegex.test(event.target.username.value)) {
+            setError({
+                "username" : "Your username is not valid, characters allowed: A – Z, a - z, 0 – 9 and .-_"
+            })
+            return;
+        }
+
+        if(event.target.password.value!=event.target.repeatPassword.value) {
+            setError({
+                "password" : "Passwords do not match"
+            })
+            return;
+        }
 
         const data : UserDetails = {
             username: event.target.username.value,
@@ -22,10 +46,12 @@ const Register: React.FC<RegisterProps> = ({display}) => {
             password: event.target.password.value,
         }
 
-        const registerUser = await register({websiteInput: data});
-        console.log(registerUser.data?.registerUser.errors);
-
-        error = registerUser.data?.registerUser.errors;
+        
+        const response = await register({userDetails: data});
+        console.log(response.data?.registerUser.errors)
+        if(response.data?.registerUser.errors) {
+            setError(convetToMap(response.data.registerUser.errors))
+        }
         
     }
         return (
@@ -46,22 +72,32 @@ const Register: React.FC<RegisterProps> = ({display}) => {
                         <p className='self-start text-base font-light'>Are you a member?  <a href="#" className='mt-5 link text-base font-normal'>Log in now</a></p>
                     </div>
                     <div className="register__right">
+                        
                         <form onSubmit={handleSubmit} className='flex flex-col'>
                             <h1 className='text-2xl font-bold'>Register with your e-mail</h1>
+                            
                             <Input 
                                 text= "Username (*)"
                                 type= "text"
                                 labelClass= "uppercase mt-10 text-xs"
                                 name= 'username'
                                 inputClass= "text-base"
+                                error={error.username ? true : false}
                             />
+                            {
+                                error.username ? <p className='text-xs font-light mt-1 error'>{error.username}</p> : ''
+                            }
                             <Input 
                                 text= "Email (*)"
                                 type= "email"
                                 labelClass= "uppercase mt-8 text-xs"
                                 name= 'email'
                                 inputClass= "text-base"
+                                error={error.email ? true : false}
                             />
+                            {
+                                error.email ? <p className='text-xs font-light mt-1 error'>{error.email}</p> : ''
+                            }
                             <div className="grid grid-cols-2 gap-x-3">    
                                 <Input 
                                     text= "Password (*)"
@@ -69,6 +105,7 @@ const Register: React.FC<RegisterProps> = ({display}) => {
                                     labelClass= "uppercase mt-8 text-xs"
                                     name= 'password'
                                     inputClass= "text-base"
+                                    error={error.password ? true : false}
                                 />
                                 <Input 
                                     text= "Repeat Password (*)"
@@ -76,8 +113,12 @@ const Register: React.FC<RegisterProps> = ({display}) => {
                                     labelClass= "uppercase mt-8 text-xs"
                                     name= 'repeatPassword'
                                     inputClass= "text-base"
+                                    error={error.password ? true : false}
                                 />
                             </div>
+                            {
+                                error.password ? <p className='text-xs font-light mt-1 error'>{error.password}</p> : ''
+                            }
                             <p className='text-base font-light mt-7'>Awwwards may keep me informed with personalized emails about products and services. See our Privacy Policy for more details.</p>
                             <Checkbox 
                                 text= "Please contact me via e-mail"
@@ -85,6 +126,7 @@ const Register: React.FC<RegisterProps> = ({display}) => {
                                 labelClass= "checkbox text-base font-ligh"
                                 name= 'email_subscription'
                                 inputClass= "text-base"
+                                required={false}
                             />
                             <Checkbox 
                                 text= "I have read and accept the Terms and Conditions"
@@ -92,6 +134,7 @@ const Register: React.FC<RegisterProps> = ({display}) => {
                                 labelClass= "checkbox text-base font-ligh"
                                 name= 'email_subscription'
                                 inputClass= "text-base"
+                                required={true}
                             />
                             <button type="submit" className='text-xl font-normal mt-10'>Create Account</button>
                             <div className="flex items-center justify-end">

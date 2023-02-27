@@ -1,6 +1,7 @@
 import { __CHECKBOX, __EMAIL, __PASSWORD } from '@/constants';
-import { useLoginUserMutation, UserDetails } from '@/generated/graphql';
-import React from 'react'
+import {  useLoginUserMutation, UserDetails } from '@/generated/graphql';
+import { urlConfig } from '@/pages/_app';
+import React, { useState } from 'react'
 import Checkbox from '../checkbox/checkbox';
 import Input from '../input/input';
 import { data } from './data';
@@ -13,19 +14,33 @@ interface loginProps {
 const login: React.FC<loginProps> = ({display}) => {
 
     const [, login] = useLoginUserMutation();
-        
+    const [error, setError] = useState<any>({});
+    
+    
+    const convetToMap = (error) => {
+        const errorMap:Record<string,string> = {} 
+         error.forEach(({field, message}) => {
+            errorMap[field] = message;
+         });
+         return errorMap;
+    }
+
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const data : UserDetails = {
-            username: event.target.username.value,
+            username: event.target.email.value,
             email: event.target.email.value,
             password: event.target.password.value,
         }
 
-        const loginUser = await login({websiteInput: data});
+        const response = await login({userDetails: data});
 
-        console.log(loginUser.data);
+        if(response.data?.loginUser.errors) {
+            setError(convetToMap(response.data.loginUser.errors));
+        }
+
 
         
     }
@@ -51,10 +66,11 @@ const login: React.FC<loginProps> = ({display}) => {
                         <form onSubmit={handleSubmit} className='flex flex-col'>
                             <h1 className='text-2xl font-bold'>Log in</h1>
                             {
+                            
                                 data.map(({...props}, index) => {
                                     return props.type === __CHECKBOX ?
-                                        <Checkbox {...props} key={index} /> :
-                                        <Input {...props} key={index} /> 
+                                        <Checkbox {...props} key={index} required={false}/> :
+                                        <Input {...props} key={index} error={false}/> 
                                 })
                             }
                             <button type="submit" className='text-xl font-normal mt-10'>Log in now</button>
@@ -90,4 +106,4 @@ const login: React.FC<loginProps> = ({display}) => {
         );
 }
 
-export default login;
+export default urlConfig(login);

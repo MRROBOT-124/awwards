@@ -43,7 +43,7 @@ const Header: React.FC<HeaderProps> = ({ backgroundColor, searchBgColor}) => {
                             
                         </Wrapper>
                     </header>
-                    <Register display={login} pageProps={undefined} />
+                    <Login display={login} pageProps={undefined} />
                 </>
         );
 }

@@ -76,6 +76,10 @@
 
         }
 
+        .error {
+            color: var(--red);
+        }
+
         button {
             background-color: var(--primary);
             padding: 16px;

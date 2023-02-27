@@ -9,9 +9,6 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-
-/** All built-in and custom scalars, mapped to their actual values */
-
 export type Scalars = {
   ID: string;
   String: string;
@@ -35,12 +32,12 @@ export type Mutation = {
 
 
 export type MutationLoginUserArgs = {
-  websiteInput: UserDetails;
+  userDetails: UserDetails;
 };
 
 
 export type MutationRegisterUserArgs = {
-  websiteInput: UserDetails;
+  userDetails: UserDetails;
 };
 
 
@@ -110,18 +107,18 @@ export type WebsiteDetails = {
 };
 
 export type LoginUserMutationVariables = Exact<{
-  websiteInput: UserDetails;
+  userDetails: UserDetails;
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserResponse', errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null, user?: { __typename?: 'User', email: string, password: string } | null } };
+export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', _id: number, createdAt: string, email: string, updatedAt: string, username: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type RegisterUserMutationVariables = Exact<{
-  websiteInput: UserDetails;
+  userDetails: UserDetails;
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', _id: number, createdAt: string, email: string, password: string, updatedAt: string, username: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'UserResponse', user?: { __typename?: 'User', _id: number, createdAt: string, email: string, updatedAt: string, username: string } | null, errors?: Array<{ __typename?: 'FieldError', field: string, message: string }> | null } };
 
 export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -129,21 +126,60 @@ export type GetAllUsersQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllUsersQuery = { __typename?: 'Query', getAllUsers: Array<{ __typename?: 'User', email: string, password: string, username: string, _id: number, createdAt: string, updatedAt: string }> };
 
 
-
-export const LoginUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LoginUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"websiteInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserDetails"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"loginUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"websiteInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"websiteInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"password"}}]}}]}}]}}]} as unknown as DocumentNode<LoginUserMutation, LoginUserMutationVariables>;
-export const RegisterUserDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"RegisterUser"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"websiteInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"UserDetails"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"registerUser"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"websiteInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"websiteInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"username"}}]}},{"kind":"Field","name":{"kind":"Name","value":"errors"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"field"}},{"kind":"Field","name":{"kind":"Name","value":"message"}}]}}]}}]}}]} as unknown as DocumentNode<RegisterUserMutation, RegisterUserMutationVariables>;
-export const GetAllUsersDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getAllUsers"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"email"}},{"kind":"Field","name":{"kind":"Name","value":"password"}},{"kind":"Field","name":{"kind":"Name","value":"username"}},{"kind":"Field","name":{"kind":"Name","value":"_id"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}}]}}]}}]} as unknown as DocumentNode<GetAllUsersQuery, GetAllUsersQueryVariables>;
-
+export const LoginUserDocument = gql`
+    mutation LoginUser($userDetails: UserDetails!) {
+  loginUser(userDetails: $userDetails) {
+    user {
+      _id
+      createdAt
+      email
+      updatedAt
+      username
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
 
 export function useLoginUserMutation() {
   return Urql.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument);
 };
-
+export const RegisterUserDocument = gql`
+    mutation RegisterUser($userDetails: UserDetails!) {
+  registerUser(userDetails: $userDetails) {
+    user {
+      _id
+      createdAt
+      email
+      updatedAt
+      username
+    }
+    errors {
+      field
+      message
+    }
+  }
+}
+    `;
 
 export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
-
+export const GetAllUsersDocument = gql`
+    query GetAllUsers {
+  getAllUsers {
+    email
+    password
+    username
+    _id
+    createdAt
+    updatedAt
+  }
+}
+    `;
 
 export function useGetAllUsersQuery(options?: Omit<Urql.UseQueryArgs<GetAllUsersQueryVariables>, 'query'>) {
   return Urql.useQuery<GetAllUsersQuery, GetAllUsersQueryVariables>({ query: GetAllUsersDocument, ...options });

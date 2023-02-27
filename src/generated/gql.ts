@@ -13,8 +13,8 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel or swc plugin for production.
  */
 const documents = {
-    "mutation LoginUser($websiteInput: UserDetails!) {\n  loginUser(websiteInput: $websiteInput) {\n    errors {\n      field\n      message\n    }\n    user {\n      email\n      password\n    }\n  }\n}": types.LoginUserDocument,
-    "mutation RegisterUser($websiteInput: UserDetails!) {\n  registerUser(websiteInput: $websiteInput) {\n    user {\n      _id\n      createdAt\n      email\n      password\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}": types.RegisterUserDocument,
+    "mutation LoginUser($userDetails: UserDetails!) {\n  loginUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}": types.LoginUserDocument,
+    "mutation RegisterUser($userDetails: UserDetails!) {\n  registerUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}": types.RegisterUserDocument,
     "query GetAllUsers {\n  getAllUsers {\n    email\n    password\n    username\n    _id\n    createdAt\n    updatedAt\n  }\n}": types.GetAllUsersDocument,
 };
 
@@ -35,11 +35,11 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation LoginUser($websiteInput: UserDetails!) {\n  loginUser(websiteInput: $websiteInput) {\n    errors {\n      field\n      message\n    }\n    user {\n      email\n      password\n    }\n  }\n}"): (typeof documents)["mutation LoginUser($websiteInput: UserDetails!) {\n  loginUser(websiteInput: $websiteInput) {\n    errors {\n      field\n      message\n    }\n    user {\n      email\n      password\n    }\n  }\n}"];
+export function graphql(source: "mutation LoginUser($userDetails: UserDetails!) {\n  loginUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"): (typeof documents)["mutation LoginUser($userDetails: UserDetails!) {\n  loginUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "mutation RegisterUser($websiteInput: UserDetails!) {\n  registerUser(websiteInput: $websiteInput) {\n    user {\n      _id\n      createdAt\n      email\n      password\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"): (typeof documents)["mutation RegisterUser($websiteInput: UserDetails!) {\n  registerUser(websiteInput: $websiteInput) {\n    user {\n      _id\n      createdAt\n      email\n      password\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"];
+export function graphql(source: "mutation RegisterUser($userDetails: UserDetails!) {\n  registerUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"): (typeof documents)["mutation RegisterUser($userDetails: UserDetails!) {\n  registerUser(userDetails: $userDetails) {\n    user {\n      _id\n      createdAt\n      email\n      updatedAt\n      username\n    }\n    errors {\n      field\n      message\n    }\n  }\n}"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
